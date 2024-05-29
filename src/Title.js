@@ -41,6 +41,6 @@ function TitleRepeat(){
 
     if(opex.onclick()){
         //操作説明ヘ
-        location.href = "/OpeExp/index.html"
+        location.href = "/DanmakuKari/OpeExp/index.html"
     }
 }
