@@ -76,7 +76,11 @@ function init(){
             "src/Game.js"
         ]
 
-    game.addScripts(JSFiles)
+    for(let i = 0; i<JSFiles.length; i++){
+        var script = document.createElement("script")
+        script.src = JSFiles[i]
+        document.body.appendChild(script)
+    }
     
     NowSCB = 0
 }
