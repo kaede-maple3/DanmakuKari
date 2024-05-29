@@ -76,7 +76,7 @@ function init(){
             "src/Game.js"
         ]
 
-    \game.addScripts(JSFiles)
+    game.addScripts(JSFiles)
     
     NowSCB = 0
 }
