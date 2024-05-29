@@ -82,7 +82,11 @@ function init(){
 }
 
 function ready(){
-    ReadyTitle()
+    try{
+        ReadyTitle()
+    }catch(e){
+        location.reload()
+    }
 }
 
 function repeat(){
