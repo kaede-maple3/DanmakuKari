@@ -360,6 +360,16 @@ class Game{
     set_scene(scene){
         this.scene = scene
     }
+    addScript(url){
+        var script = document.createElement("script")
+        script.src = url
+        document.body.appendChild(script)
+    }
+    addScripts(arr){
+        arr.forEach(url => {
+            game.addScript(url)
+        });
+    }
   }
 
 //シーン
