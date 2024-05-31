@@ -70,7 +70,7 @@ class bullet{
             if(col2){
                 enearr2[count2].hp -= this.attack
                 if(enearr2[count2].hp<=0){
-                    console.log(enearr2[count2].Edata.id)
+                    //console.log(enearr2[count2].Edata.id)
                     GameScene.remove(enearr2[count2].Edata)
                     enearr2[count2].calculator.remove(enearr2[count2].Edata.id + this.id)
                     //console.log(enearr[count].score)
@@ -167,9 +167,6 @@ class EneBullet2{
                 playerHP -= DAMAGE
                 ChangePlayerLife(playerHP)
                 playerInvFlame = InvFlame
-            }
-            if(borderJudge){
-                console.log("aa")
             }
             player.calculator.remove(this.id)
             game.scene.remove(this.Edata)

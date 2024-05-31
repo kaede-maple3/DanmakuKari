@@ -9,7 +9,7 @@ function init(){
     if(HighScore == null){
         HighScore = 0
     }
-    console.log(HighScore)
+    //console.log(HighScore)
     game.make_canvas(880,660,"#252525");
     game.dev.mode = true
 

@@ -113,7 +113,7 @@ function Progress(progress){
                     var tmpbullet2 = EnemiesStAtt(rabbits,rabBImg,new Vector2(20,20),new Vector2(-1.5,-2))
                     tmpbullet2.forEach(bullet => {
                         rabBullets.push(bullet)
-                        console.log(bullet.Edata.pos)
+                        //console.log(bullet.Edata.pos)
                     });
                     
                     var tmpbullet3 = EnemiesStAtt(rabbits,rabBImg,new Vector2(20,20),new Vector2(1.5,-2))

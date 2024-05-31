@@ -39,11 +39,11 @@ function randomheight(arr){
 
 function SlideInit(arr,vec){
     var count = 0
-    console.log(arr)
+    //console.log(arr)
     arr.forEach(element => {
        element.Edata.pos.x -= vec.x*count
        element.Edata.pos.y -= vec.y*count
-       console.log(element.Edata.id)
+       //console.log(element.Edata.id)
        count++
     });
 }
