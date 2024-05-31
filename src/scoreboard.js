@@ -26,6 +26,9 @@ var sosoImg
 var vg
 var vgImg
 
+var BossHPText
+var BossHPPerText
+
 function SetScoreBoard(){
     badImg = game.ImgLoader.getImage("bad")
     bad = new NormalUI("bad",new ImageGeometry(badImg),new ImageMaterial(badImg))

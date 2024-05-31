@@ -57,9 +57,17 @@ function init(){
         "PB2":"./img/Bullet/hi02.png",
         "PB3":"./img/Bullet/hi03.png",
         "PB4":"./img/Bullet/hi04.png",
-        "genB":"./img/Bullet/genbullet.png",
+        "DGreen":"./img/Bullet/DanGreen.png",
         "DI":"./img/DI/kyuriipon.png",
-        "yo":"./img/player/yoltu.png"
+        "yo":"./img/player/yoltu.png",
+        "DBlue":"./img/Bullet/DanBlue.png",
+        "D":"./img/Bullet/DanGreen.png",
+        "DOra":"./img/Bullet/DanOra.png",
+        "DRed":"./img/Bullet/DanRed.png",
+        "DSBlue":"./img/Bullet/DanSBlue.png",
+        "DYellow":"./img/Bullet/DanYellow.png",
+        "wolf":"./img/character/wolf.png",
+        "death":"./img/character/shinigami2.png"
     }
     game.ImgLoader.addImgs(Imgs)
 
@@ -75,7 +83,6 @@ function init(){
             "src/progress.js",
             "src/Game.js"
         ]
-
     for(let i = 0; i<JSFiles.length; i++){
         var script = document.createElement("script")
         script.src = JSFiles[i]
@@ -86,11 +93,7 @@ function init(){
 }
 
 function ready(){
-    try{
-        ReadyTitle()
-    }catch(e){
-        location.reload()
-    }
+    ReadyTitle()
 }
 
 function repeat(){

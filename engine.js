@@ -865,6 +865,7 @@ class Body{
                 }
                 //左
                 if(left <= SWidth){
+                    //console.log(this.pos.x)
                     border[2] = true
                 }else{
                     border[2] = false
@@ -934,6 +935,7 @@ class Vector2{
     mul(vec){
         return new Vector2(this.x * vec.x, this.y * vec.y)
     }
+    //[/]
     div(vec){
         return new Vector2(this.x / vec.x, this.y / vec.y)
     }

@@ -41,6 +41,6 @@ function TitleRepeat(){
 
     if(opex.onclick()){
         //操作説明ヘ
-        location.href = "https://kaede-maple3.github.io/DanmakuKari/OpeExp/index.html"
+        location.href = "/OpeExp/index.html"
     }
 }

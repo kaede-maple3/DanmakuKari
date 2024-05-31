@@ -10,6 +10,17 @@ const RASPEED = new Vector2(1,1)
 const RASCORE = 800
 const RADROP = 2
 
+//狼
+const WOHP = 300
+const WOSPEED = new Vector2(2,2)
+const WOSCORE = 800
+const WODROP = 2
+
+//死神
+const SHHP = 10000
+const SHSCORE = 40000
+const SHDROP = 20
+
 const PML = 5 //プレイヤー初期HP
 const MSP = 8 //スコアの桁の最大値
 const MPP = 5 //パワーの桁の最大値
@@ -22,9 +33,9 @@ const InvFlame = 180//被ダメージ後の無敵時間(フレーム)
 const LifeScore = 5000//残りのHP一つ毎のスコア
 
 //const BSCORE = 5000
-const NTSCORE = 8000//ナイストライ
-const SSCORE = 20000//そーそー
-const VGSCORE = 40000//ベリーグッド
+const NTSCORE = 10000//ナイストライ
+const SSCORE = 21000//そーそー
+const VGSCORE = 55000//ベリーグッド
 
 
 var score
@@ -52,6 +63,7 @@ var BulletBreakFlame
 var NowBreakFlame
 
 var nowEnemies = []
+var nowEnemies2 = []
 
 //ドロップアイテム
 var DIImg
@@ -63,6 +75,20 @@ var genImg
 
 //ウサギ
 var rabImg
+//ウサギ弾
+var rabBImg
+var rabBullets = []
+
+//狼
+var wolfImg
+var wolfBImg
+var wolfBullets = []
+
+//死神
+var shiImg
+var ShiLaserImg
+var ShiStHomingImg
+var ShiDropImg
 
 var scoreBoard
 
@@ -75,7 +101,7 @@ var PBbody
 //原住民玉
 var GenBImg
 var genbullets = []
-var TotalGenBulletCount
+var TotalEneBulletCount
 
 //ポーズメニュー
 var Pback
@@ -130,13 +156,19 @@ function GameInit(){
     //弾
     BulletBreakFlame = 5
     NowBreakFlame = 0
-    TotalGenBulletCount = 0
+    TotalEneBulletCount = 0
     TotalBulletCount = 0
     PBImgs.push(game.ImgLoader.getImage("PB1"))
     PBImgs.push(game.ImgLoader.getImage("PB2"))
-    PBImgs.push(game.ImgLoader.getImage("PB3"))
-    PBImgs.push(game.ImgLoader.getImage("PB4"))
-    GenBImg = game.ImgLoader.getImage("genB")
+    //BImgs.push(game.ImgLoader.getImage("PB3"))
+    //PBImgs.push(game.ImgLoader.getImage("PB4"))
+    GenBImg = game.ImgLoader.getImage("DGreen")
+    rabBImg = game.ImgLoader.getImage("DOra")
+    wolfBImg = game.ImgLoader.getImage("DYellow")
+    shiLaserImg = game.ImgLoader.getImage("DBlue")
+    ShiStHomingImg = game.ImgLoader.getImage("DSBlue")
+    ShiDropImg = game.ImgLoader.getImage("DRed")
+    
     
 
     //プレイヤー
@@ -154,6 +186,12 @@ function GameInit(){
     
     //ウサギ
     rabImg = game.ImgLoader.getImage("rab")
+
+    //狼
+    wolfImg = game.ImgLoader.getImage("wolf")
+
+    //死神
+    shiImg = game.ImgLoader.getImage("death")
 
     //ポーズ画面
     Pback = new NormalMesh("PB",new SquareGeometry(580,660),new SimpleMaterial("#000000"))
@@ -185,9 +223,8 @@ function GameInit(){
     progressReset()
 }
 
-function GameRepeat(){
-    if(GameClear){
-        GameScene.addUI(Pback)
+function GameClearFunc(){
+    GameScene.addUI(Pback)
         GameScene.addUI(yo)
         GameScene.addUI(GCText)
         score += playerHP*LifeScore
@@ -213,7 +250,9 @@ function GameRepeat(){
         if(HighScore<score){
             localStorage.setItem("HighScore",score)
         }
-    }else{
+}
+
+function GameRepeat(){
     //キーとボタンのブレイクタイム(押したときに連打判定になってるから)
     if(NowSCB <= 0){
     if(InputKey[81]){
@@ -293,15 +332,21 @@ function GameRepeat(){
         PlayerSpeed = 2
     }
     
+    
+    Progress(nowProgress)
     //弾発射
     if(InputKey[32]){
         if(NowBreakFlame <= 0){
             NowBreakFlame = BulletBreakFlame
-            var random = Math.floor(Math.random()*4)
+            var random = Math.floor(Math.random()*2)
             var Pbullet = new bullet(TotalBulletCount,PBImgs[random],player.Edata.pos,random)
             Pbullet.Edata.col = new Body("bullet"+TotalBulletCount,new SquareCollision(Pbullet.Edata.geometry.size.x,Pbullet.Edata.geometry.size.y),"test")
             playerBullets.push(Pbullet)
             nowEnemies.forEach(nowEnemy => {
+                //console.log(nowEnemy.Edata.id)
+                nowEnemy.calculator.add(Pbullet.Edata,nowEnemy.Edata,nowEnemy.Edata.id + TotalBulletCount)
+            });
+            nowEnemies2.forEach(nowEnemy => {
                 //console.log(nowEnemy.Edata.id)
                 nowEnemy.calculator.add(Pbullet.Edata,nowEnemy.Edata,nowEnemy.Edata.id + TotalBulletCount)
             });
@@ -326,7 +371,7 @@ function GameRepeat(){
     var RemoveBulletsList = []
     var delCount = 0
     playerBullets.forEach(bullet => {
-        if(bullet.update(nowEnemies)){
+        if(bullet.update(nowEnemies,nowEnemies2)){
             RemoveBulletsList.push(delCount)
         }
         delCount ++
@@ -335,7 +380,7 @@ function GameRepeat(){
         playerBullets.splice(RemoveBulletsList[i]-i,1)
     }
 
-    Progress(nowProgress)
+    
 
     var RemoveBulletsList = []
     var delCount = 0
@@ -364,6 +409,5 @@ function GameRepeat(){
     //弾のブレイクタイム更新
     NowBreakFlame --
     //console.log(game.fps)
-}
 }
 }
